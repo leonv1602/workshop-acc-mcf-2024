@@ -1,0 +1,33 @@
+---
+title: "ACC Workshop"
+author: "Leonardo Valentino Kosasih"
+date: "2024-04-06"
+output: pdf_document
+---
+Modul ini terbagi atas beberapa bagian sebagai berikut:
+\begin{enumerate}
+\item Pengenalan Asuransi
+\item \textit{Term Structure of Interest Rate}
+\item \textit{Survival Model}
+\item Cadangan Premi: Konvensional
+\item Cadangan Premi: Syariah
+\item CAT \textit{Bond}
+\end{enumerate}
+
+# Pengenalan Asuransi
+Lorem Ipsum  
+
+# *Term Structure of Interest Rate*  
+Lorem Ipsum  
+
+# *Survival Model*  
+Lorem Ipsum  
+
+# Cadangan Premi: Konvensional  
+Lorem Ipsum  
+
+# Cadangan Premi: Syariah  
+Lorem Ipsum  
+
+# CAT *Bond*  
+Lorem Ipsum  
