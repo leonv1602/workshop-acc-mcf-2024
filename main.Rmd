@@ -15,7 +15,19 @@ Modul ini terbagi atas beberapa bagian sebagai berikut:
 \end{enumerate}
 
 # Pengenalan Asuransi
-Lorem Ipsum  
+Dalam kegiatan jual beli, terdapat suatu persamaan yang digunakan, yaitu 
+\begin{equation}
+\label{harga}
+\text{Harga} := \text{Biaya} + \text{Keuntungan}
+\end{equation}
+Sehingga dalam menentukan harga suatu barang/jasa, dapat dihitung dengan menjumlahkan biaya yang diperlukan untuk menyediakan barang/jasa tersebut dan keuntungan yang ingin diperoleh oleh penjual.
+Hal ini juga berlaku untuk produk asuransi dengan adanya suatu perbedaan mendasar. Perbedaan tersebut adalah, tidak diketahuinya biaya yang perlu dikeluarkan di masa depan.  
+  
+Dalam industri asuransi, \textbf{harga} pada persamaan (\ref{harga}) adalah premi dari suatu produk asuransi, \textbf{biaya} pada persamaan (\ref{harga}) adalah penjumlahan antara kerugian/klaim yang dilakukan oleh pemegang polis, dan juga pengeluaran perusahaan asuransi dalam memasarkan polis dan juga dalam menyelesaikan klaim yang diajukan dan keuntungan adalah arus kas net yang sering disebut dengan \textit{underwriting profit}. Sehingga persamaan (\ref{harga}) dapat ditulis menjadi:
+\begin{equation}
+\text{Premi} := \text{Kerugian/Klaim} + \text{Biaya Operasional} + \textit{UW Profit}
+\end{equation}
+yang dikenal sebagai \textit{Fundamental Insruance Equation}.  
 
 # *Term Structure of Interest Rate*  
 Lorem Ipsum  
