@@ -21,16 +21,37 @@ Dalam kegiatan jual beli, terdapat suatu persamaan yang digunakan, yaitu
 \text{Harga} := \text{Biaya} + \text{Keuntungan}
 \end{equation}
 Sehingga dalam menentukan harga suatu barang/jasa, dapat dihitung dengan menjumlahkan biaya yang diperlukan untuk menyediakan barang/jasa tersebut dan keuntungan yang ingin diperoleh oleh penjual.
-Hal ini juga berlaku untuk produk asuransi dengan adanya suatu perbedaan mendasar. Perbedaan tersebut adalah, tidak diketahuinya biaya yang perlu dikeluarkan di masa depan.  
+Hal ini juga berlaku untuk produk asuransi dengan adanya suatu perbedaan mendasar. Perbedaan tersebut adalah, \textbf{tidak diketahuinya} biaya yang perlu dikeluarkan di masa depan.  
   
-Dalam industri asuransi, \textbf{harga} pada persamaan (\ref{harga}) adalah premi dari suatu produk asuransi, \textbf{biaya} pada persamaan (\ref{harga}) adalah penjumlahan antara kerugian/klaim yang dilakukan oleh pemegang polis, dan juga pengeluaran perusahaan asuransi dalam memasarkan polis dan juga dalam menyelesaikan klaim yang diajukan dan keuntungan adalah arus kas net yang sering disebut dengan \textit{underwriting profit}. Sehingga persamaan (\ref{harga}) dapat ditulis menjadi:
+Pada industri asuransi, \textbf{harga} pada persamaan (\ref{harga}) adalah premi dari suatu produk asuransi, \textbf{biaya} pada persamaan (\ref{harga}) adalah penjumlahan antara kerugian/klaim yang dilakukan oleh pemegang polis, dan juga pengeluaran perusahaan asuransi dalam memasarkan polis dan juga dalam menyelesaikan klaim yang diajukan dan keuntungan adalah arus kas net yang sering disebut dengan \textit{underwriting profit}. Sehingga persamaan (\ref{harga}) dapat ditulis menjadi:
 \begin{equation}
 \text{Premi} := \text{Kerugian/Klaim} + \text{Biaya Operasional} + \textit{UW Profit}
 \end{equation}
 yang dikenal sebagai \textit{Fundamental Insruance Equation}.  
-
+  
+Dalam merancang suatu produk asuransi, asumsi yang digunakan dapat dibagi menjadi 2 garis besar, yaitu \textbf{asumsi ekonomi} dan \textbf{asumsi non-ekonomi (demografis)}.
+  
+Modul ini, akan membahas mengenai asumsi-asumsi yang akan digunakan dalam merancang produk asuransi. Produk asuransi yang akan dipelajari adalah:
+\begin{enumerate}
+\item Asuransi Konvensional
+\item Asuransi Syariah
+\item \textit{Catasthrope} (CAT) \textit{Bond}
+\end{enumerate}  
+  
+Asuransi Syariah atau Takaful adalah asuransi yang dikelola dengan prinsip Syariah. Takaful, memiliki suatu kumpulan dana (\textit{pooled fund}) yang digunakan untuk membayarkan klaim yang disebut dengan \textbf{Tabarru}. Sedangkan perusahaan asuransi (atau Operator) akan mendapat upah (\textbf{Ujrah}) dan/atau kontrak bagi hasil dalam mengelola dana \textbf{Tabarru}.   
+  
 # *Term Structure of Interest Rate*  
-Lorem Ipsum  
+## Pengenalan Istilah  
+\textit{Term Structure of Interest Rate} merujuk nilai suku bunga yang bergantung dari jangka waktu investasi. Hal ini biasa disajikan dengan kurva imbal hasil (\textit{yield curve}). Di Indonesia sendiri, terdapat suatu lembaga yang menerbitkan data imbal hasil ini, yaitu [PHEI](https://www.phei.co.id/). Perlu diingat bahwa imbal hasil yang disajikan pada situs tersebut merupakan imbal hasil dari obligasi berkupon (\textit{coupon paying bond}), sehingga imbal hasil yang ada bukan merupakan imbal hasil efektif. Untuk dapat memperoleh imbal hasil efektif (atau yang dikenal dengan istilah \textit{spot rate}), perlu dilakukan metode \textit{bootstrapping}.  
+Definisikan \textit{spot rate}, $r_t$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu 0 hingga waktu $t$, dan \textit{yield rate}, $y_t$, sebagai imbal hasil dari obligasi dengan kupon tahunan. Dari pendefinisian ini, diperoleh bahwa $r_1 = y_1$ (Mengapa?), dan untuk menghitung $r_k$ dapat diperoleh dari persamaan berikut:
+\begin{equation}
+\label{bootstrap}
+1 = \sum_{i=1}^{k-1} \frac{y_k}{(1+s_{i})^i} + \frac{1+y_k}{(1+r_k)^k}
+\end{equation}
+Definisikan kembali \textit{forward rate}, $f_{n,m}$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu $n$ hingga waktu $m$, sehingga $f_{n,m} dapat dihitung dengan persamaan berikut: 
+\begin{equation}
+(1+f_{n,m})^{m-n} = \frac{(1+r_m)^m}{(1+r_n)^n}
+\end{equation}  
 
 # *Survival Model*  
 Lorem Ipsum  
