@@ -25,11 +25,12 @@ Hal ini juga berlaku untuk produk asuransi dengan adanya suatu perbedaan mendasa
   
 Pada industri asuransi, \textbf{harga} pada persamaan (\ref{harga}) adalah premi dari suatu produk asuransi, \textbf{biaya} pada persamaan (\ref{harga}) adalah penjumlahan antara kerugian/klaim yang dilakukan oleh pemegang polis, dan juga pengeluaran perusahaan asuransi dalam memasarkan polis dan juga dalam menyelesaikan klaim yang diajukan dan keuntungan adalah arus kas net yang sering disebut dengan \textit{underwriting profit}. Sehingga persamaan (\ref{harga}) dapat ditulis menjadi:
 \begin{equation}
+\label{fundamental}
 \text{Premi} := \text{Kerugian/Klaim} + \text{Biaya Operasional} + \textit{UW Profit}
 \end{equation}
 yang dikenal sebagai \textit{Fundamental Insruance Equation}.  
-  
-Dalam merancang suatu produk asuransi, asumsi yang digunakan dapat dibagi menjadi 2 garis besar, yaitu \textbf{asumsi ekonomi} dan \textbf{asumsi non-ekonomi (demografis)}.
+
+Dalam merancang suatu produk asuransi, asumsi yang digunakan dapat dibagi menjadi 2 garis besar, yaitu \textbf{asumsi ekonomi} dan \textbf{asumsi non-ekonomi (demografis)}. Hal ini diperlukan karena pada umumnya, kontrak asuransi memiliki jangka waktu yang panjang. Sehingga, dalam melakukan valuasi pada persamaan (\ref{fundamental}), akan dihitung Ekspektasi dari Nilai Sekarang (\textit{Expected Present Value}) untuk Premi, dan juga Kerugian atau Klaim untuk tiap tahunnya.
   
 Modul ini, akan membahas mengenai asumsi-asumsi yang akan digunakan dalam merancang produk asuransi. Produk asuransi yang akan dipelajari adalah:
 \begin{enumerate}
@@ -39,25 +40,34 @@ Modul ini, akan membahas mengenai asumsi-asumsi yang akan digunakan dalam meranc
 \end{enumerate}  
   
 Asuransi Syariah atau Takaful adalah asuransi yang dikelola dengan prinsip Syariah. Takaful, memiliki suatu kumpulan dana (\textit{pooled fund}) yang digunakan untuk membayarkan klaim yang disebut dengan \textbf{Tabarru}. Sedangkan perusahaan asuransi (atau Operator) akan mendapat upah (\textbf{Ujrah}) dan/atau kontrak bagi hasil dalam mengelola dana \textbf{Tabarru}.   
+
+Asuransi adalah salah satu kontrak yang diatur dan diawasi oleh lembaga pemerintahan. Di Indonesia, lembaga yang mengawasi produk asuransi adalah Otoritas Jasa Keuangan (OJK). Sehingga dalam merancang suatu produk asuransi, selain memperhatikan kondisi pasar, perlu juga dilakukan studi mengenai peraturan yang berrlaku.  
   
 # *Term Structure of Interest Rate*  
 ## Pengenalan Istilah  
-\textit{Term Structure of Interest Rate} merujuk nilai suku bunga yang bergantung dari jangka waktu investasi. Hal ini biasa disajikan dengan kurva imbal hasil (\textit{yield curve}). Di Indonesia sendiri, terdapat suatu lembaga yang menerbitkan data imbal hasil ini, yaitu [PHEI](https://www.phei.co.id/). Perlu diingat bahwa imbal hasil yang disajikan pada situs tersebut merupakan imbal hasil dari obligasi berkupon (\textit{coupon paying bond}), sehingga imbal hasil yang ada bukan merupakan imbal hasil efektif. Untuk dapat memperoleh imbal hasil efektif (atau yang dikenal dengan istilah \textit{spot rate}), perlu dilakukan metode \textit{bootstrapping}.  
+\textit{Term Structure of Interest Rate} merujuk nilai suku bunga yang bergantung dari jangka waktu investasi. Hal ini biasa disajikan dengan kurva imbal hasil (\textit{yield curve}). Di Indonesia sendiri, terdapat suatu lembaga yang menerbitkan data imbal hasil ini, yaitu [\textcolor{blue}{PHEI}](https://www.phei.co.id/). Perlu diingat bahwa imbal hasil yang disajikan pada situs tersebut merupakan imbal hasil dari obligasi berkupon (\textit{coupon paying bond}), sehingga imbal hasil yang ada bukan merupakan imbal hasil efektif. Untuk dapat memperoleh imbal hasil efektif (atau yang dikenal dengan istilah \textit{spot rate}), perlu dilakukan metode \textit{bootstrapping}.  
 Definisikan \textit{spot rate}, $r_t$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu 0 hingga waktu $t$, dan \textit{yield rate}, $y_t$, sebagai imbal hasil dari obligasi dengan kupon tahunan. Dari pendefinisian ini, diperoleh bahwa $r_1 = y_1$ (Mengapa?), dan untuk menghitung $r_k$ dapat diperoleh dari persamaan berikut:
 \begin{equation}
 \label{bootstrap}
 1 = \sum_{i=1}^{k-1} \frac{y_k}{(1+s_{i})^i} + \frac{1+y_k}{(1+r_k)^k}
 \end{equation}
-Definisikan kembali \textit{forward rate}, $f_{n,m}$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu $n$ hingga waktu $m$, sehingga $f_{n,m} dapat dihitung dengan persamaan berikut: 
+Definisikan kembali \textit{forward rate}, $f_{n,m}$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu $n$ hingga waktu $m$, sehingga $f_{n,m}$ dapat dihitung dengan persamaan berikut: 
 \begin{equation}
 (1+f_{n,m})^{m-n} = \frac{(1+r_m)^m}{(1+r_n)^n}
 \end{equation}  
 
-# *Survival Model*  
-Lorem Ipsum  
+# *Survival Model*
+## Notasi yang akan digunakan:
+\begin{enumerate}
+\item $l_x$: jumlah orang yang hidup pada usia-$x$;
+\item $d_x$: banyak orang yang meninggal pada usia-$x$;
+\item ${}_tp_{x}$: peluang orang dengan usia-$x$ tetap hidup hingga usia $x+t$;
+\item $q_x$: peluang orang usia $x$ meninggal.
+\end{enumerate}
+Umumnya, model kesintasan dicatat dalam sebuah tabel yang disebut dengan tabel mortalita (\textit{life table} atau dalam kasus khusus \textit{service table}). Terdapat beberapa tabel mortalita yang dapat digunakan, salah satunya adalah [\textcolor{blue}{Tabel Mortalita Indonesia IV}](https://www.bing.com/ck/a?!&&p=45dd7ca36f4fb8ecJmltdHM9MTcxMTE1MjAwMCZpZ3VpZD0zN2RlYWEwMC03NzZhLTZhM2ItMTNlZS1hNTcxNzY1MjZiNjgmaW5zaWQ9NTIwMQ&ptn=3&ver=2&hsh=3&fclid=37deaa00-776a-6a3b-13ee-a57176526b68&psq=tabel+mortalitas+iv&u=a1aHR0cHM6Ly9hYWppLm9yLmlkL0ZpbGUvRG93bmxvYWQvMTk3MA&ntb=1).
 
 # Cadangan Premi: Konvensional  
-Lorem Ipsum  
+Lorem Ipsum
 
 # Cadangan Premi: Syariah  
 Lorem Ipsum  
