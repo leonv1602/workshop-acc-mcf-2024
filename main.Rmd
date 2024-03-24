@@ -2,17 +2,18 @@
 title: "ACC Workshop"
 author: "Leonardo Valentino Kosasih"
 date: "2024-04-06"
-output: pdf_document
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+toc-title: "Daftar Isi"
+header-includes:
+  - \usepackage{titling}
+  - \pretitle{\begin{center}
+    \includegraphics[width=2in,height=2in]{logo mcf.png}\LARGE\\}
+  - \posttitle{\end{center}}
 ---
-Modul ini terbagi atas beberapa bagian sebagai berikut:
-\begin{enumerate}
-\item Pengenalan Asuransi
-\item \textit{Term Structure of Interest Rate}
-\item \textit{Survival Model}
-\item Cadangan Premi: Konvensional
-\item Cadangan Premi: Syariah
-\item CAT \textit{Bond}
-\end{enumerate}
+\newpage
 
 # Pengenalan Asuransi
 Dalam kegiatan jual beli, terdapat suatu persamaan yang digunakan, yaitu 
@@ -30,21 +31,20 @@ Pada industri asuransi, \textbf{harga} pada persamaan (\ref{harga}) adalah premi
 \end{equation}
 yang dikenal sebagai \textit{Fundamental Insruance Equation}.  
 
-Dalam merancang suatu produk asuransi, asumsi yang digunakan dapat dibagi menjadi 2 garis besar, yaitu \textbf{asumsi ekonomi} dan \textbf{asumsi non-ekonomi (demografis)}. Hal ini diperlukan karena pada umumnya, kontrak asuransi memiliki jangka waktu yang panjang. Sehingga, dalam melakukan valuasi pada persamaan (\ref{fundamental}), akan dihitung Ekspektasi dari Nilai Sekarang (\textit{Expected Present Value}) untuk Premi, dan juga Kerugian atau Klaim untuk tiap tahunnya.
+Dalam merancang suatu produk asuransi, asumsi yang digunakan dapat dibagi menjadi 2 garis besar, yaitu \textbf{asumsi ekonomi} dan \textbf{asumsi non-ekonomi (demografis)}. Hal ini diperlukan karena pada umumnya, kontrak asuransi memiliki jangka waktu yang panjang. Sehingga, dalam melakukan valuasi pada persamaan (\ref{fundamental}), akan dihitung Ekspektasi dari Nilai Sekarang (\textit{Expected Present Value}) untuk Premi, dan juga Kerugian atau Klaim untuk tiap tahunnya. Sehingga, agar perusahaan asuransi memperoleh keuntungan, maka ekspektasi dari \textbf{Premi} yang diperoleh di masa depan, harus setidaknya sama atau lebih besar dari ekspektasi dari \textbf{Klaim} yang akan diajukan di masa depan.    
   
 Modul ini, akan membahas mengenai asumsi-asumsi yang akan digunakan dalam merancang produk asuransi. Produk asuransi yang akan dipelajari adalah:
 \begin{enumerate}
 \item Asuransi Konvensional
-\item Asuransi Syariah
+\item Asuransi Syariah/Takaful
 \item \textit{Catasthrope} (CAT) \textit{Bond}
 \end{enumerate}  
   
-Asuransi Syariah atau Takaful adalah asuransi yang dikelola dengan prinsip Syariah. Takaful, memiliki suatu kumpulan dana (\textit{pooled fund}) yang digunakan untuk membayarkan klaim yang disebut dengan \textbf{Tabarru}. Sedangkan perusahaan asuransi (atau Operator) akan mendapat upah (\textbf{Ujrah}) dan/atau kontrak bagi hasil dalam mengelola dana \textbf{Tabarru}.   
+Asuransi Syariah atau \textbf{Takaful} adalah asuransi yang dikelola dengan prinsip \textbf{Syariah}. Takaful, memiliki suatu kumpulan dana (\textit{pooled fund}) yang digunakan untuk membayarkan klaim yang disebut dengan \textbf{Tabarru}. Sedangkan perusahaan asuransi (atau \textbf{Operator}) akan mendapat upah (\textbf{Ujrah}) dan/atau kontrak bagi hasil dalam mengelola dana \textbf{Tabarru}. Dalam operasionalnya, jika terdapat defisit dari saldo dana Tabarru, maka operator harus menyediakan utang tak berbunga (\textbf{Qardh}) kepada pemegang polis. Namun, jika terdapat surplus dari saldo dana Tabarru, maka keuntungan tersebut akan dibagi antara operator dan pemegang polis, sesuai dengan persentase yang telah ditentukan sebelumnya.   
 
 Asuransi adalah salah satu kontrak yang diatur dan diawasi oleh lembaga pemerintahan. Di Indonesia, lembaga yang mengawasi produk asuransi adalah Otoritas Jasa Keuangan (OJK). Sehingga dalam merancang suatu produk asuransi, selain memperhatikan kondisi pasar, perlu juga dilakukan studi mengenai peraturan yang berrlaku.  
   
 # *Term Structure of Interest Rate*  
-## Pengenalan Istilah  
 \textit{Term Structure of Interest Rate} merujuk nilai suku bunga yang bergantung dari jangka waktu investasi. Hal ini biasa disajikan dengan kurva imbal hasil (\textit{yield curve}). Di Indonesia sendiri, terdapat suatu lembaga yang menerbitkan data imbal hasil ini, yaitu [\textcolor{blue}{PHEI}](https://www.phei.co.id/). Perlu diingat bahwa imbal hasil yang disajikan pada situs tersebut merupakan imbal hasil dari obligasi berkupon (\textit{coupon paying bond}), sehingga imbal hasil yang ada bukan merupakan imbal hasil efektif. Untuk dapat memperoleh imbal hasil efektif (atau yang dikenal dengan istilah \textit{spot rate}), perlu dilakukan metode \textit{bootstrapping}.  
 Definisikan \textit{spot rate}, $r_t$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu 0 hingga waktu $t$, dan \textit{yield rate}, $y_t$, sebagai imbal hasil dari obligasi dengan kupon tahunan. Dari pendefinisian ini, diperoleh bahwa $r_1 = y_1$ (Mengapa?), dan untuk menghitung $r_k$ dapat diperoleh dari persamaan berikut:
 \begin{equation}
@@ -64,7 +64,62 @@ Definisikan kembali \textit{forward rate}, $f_{n,m}$, sebagai imbal hasil efekti
 \item ${}_tp_{x}$: peluang orang dengan usia-$x$ tetap hidup hingga usia $x+t$;
 \item $q_x$: peluang orang usia $x$ meninggal.
 \end{enumerate}
-Umumnya, model kesintasan dicatat dalam sebuah tabel yang disebut dengan tabel mortalita (\textit{life table} atau dalam kasus khusus \textit{service table}). Terdapat beberapa tabel mortalita yang dapat digunakan, salah satunya adalah [\textcolor{blue}{Tabel Mortalita Indonesia IV}](https://www.bing.com/ck/a?!&&p=45dd7ca36f4fb8ecJmltdHM9MTcxMTE1MjAwMCZpZ3VpZD0zN2RlYWEwMC03NzZhLTZhM2ItMTNlZS1hNTcxNzY1MjZiNjgmaW5zaWQ9NTIwMQ&ptn=3&ver=2&hsh=3&fclid=37deaa00-776a-6a3b-13ee-a57176526b68&psq=tabel+mortalitas+iv&u=a1aHR0cHM6Ly9hYWppLm9yLmlkL0ZpbGUvRG93bmxvYWQvMTk3MA&ntb=1).
+Umumnya, model kesintasan dicatat dalam sebuah tabel yang disebut dengan tabel mortalita (\textit{life table} atau dalam kasus khusus \textit{service table}). Terdapat beberapa tabel mortalita yang dapat digunakan, salah satunya adalah [\textcolor{blue}{Tabel Mortalita Indonesia IV}](https://www.bing.com/ck/a?!&&p=45dd7ca36f4fb8ecJmltdHM9MTcxMTE1MjAwMCZpZ3VpZD0zN2RlYWEwMC03NzZhLTZhM2ItMTNlZS1hNTcxNzY1MjZiNjgmaW5zaWQ9NTIwMQ&ptn=3&ver=2&hsh=3&fclid=37deaa00-776a-6a3b-13ee-a57176526b68&psq=tabel+mortalitas+iv&u=a1aHR0cHM6Ly9hYWppLm9yLmlkL0ZpbGUvRG93bmxvYWQvMTk3MA&ntb=1).  
+
+Karena natura dari suatu kontrak asuransi yang memiliki jangkauan jangka panjang, sangat mungkin untuk seorang pemegang polis untuk mengubah pikirannya untuk mencari polis dengan karakteristik yang berbeda. Sehingga perlu juga diasumsikan, peluang seseorang untuk membatalkan polis.  
+
+Dalam kasus ini, akan dicoba konstruksi suatu \textit{service table} untuk sembarang usia, dengan peluang pembatalan polis sesuai dengan tabel berikut:
+\begin{center}
+\begin{tabular}{ |c|c|c| }
+		\hline
+		Umur Polis  & Peluang \\
+		\hline
+		< 1 tahun   & 20      \% \\ \hline
+		1 - 2 tahun & 5       \%  \\ \hline
+		> 2 tahun   & 1       \%  \\
+		\hline
+\end{tabular}
+\end{center}
+
+```{r Survival Table, warning=FALSE}
+# Package 
+library(readxl)
+library(dplyr)
+library(tidyr)
+
+# Algoritma
+lapse_table <- data.frame(
+              'year' = c(0,1,2),
+              'prob' = c(0.2, 0.05, 0.01))
+
+mort_table <- read.csv('TMI IV.csv')
+mort_table <- mort_table %>% 
+  mutate('average' = 0.5*(Male+Female))
+svc_table <- function(age, policy_age, coverage){
+  # input:
+  # age: usia pemegang polis
+  # policy_age: usia polis
+  # coverage: jangka waktu polis
+  
+  # output:
+  # table:service table
+  table_ <- data.frame(age_policyholder = seq(age, age + coverage),
+                      policy_year = seq(policy_age, policy_age + coverage))
+  table_$mort_rate <- mort_table %>% 
+    filter(Exact.Age >= age, Exact.Age <= age+coverage) %>% 
+    pull(average)
+  table_$lapse_rate <- unlist(sapply(X = table_$policy_year, 
+                                function(x){
+                                  lapse_table[lapse_table$year == min(x,2), 2]
+                                  })
+  )
+  table_$survive <- cumsum(c(1,-table_$mort_rate - table_$lapse_rate))[1:nrow(table_)]
+  table_$mort_ <- table_$mort_rate*table_$survive
+  table_$lapse <- table_$lapse_rate*table_$survive
+return(table_)
+}
+svc_table(20,0,10)
+```
 
 # Cadangan Premi: Konvensional  
 Lorem Ipsum
