@@ -42,9 +42,10 @@ Modul ini, akan membahas mengenai asumsi-asumsi yang akan digunakan dalam meranc
   
 Asuransi Syariah atau \textbf{Takaful} adalah asuransi yang dikelola dengan prinsip \textbf{Syariah}. Takaful, memiliki suatu kumpulan dana (\textit{pooled fund}) yang digunakan untuk membayarkan klaim yang disebut dengan \textbf{Tabarru}. Sedangkan perusahaan asuransi (atau \textbf{Operator}) akan mendapat upah (\textbf{Ujrah}) dan/atau kontrak bagi hasil dalam mengelola dana \textbf{Tabarru}. Dalam operasionalnya, jika terdapat defisit dari saldo dana Tabarru, maka operator harus menyediakan utang tak berbunga (\textbf{Qardh}) kepada pemegang polis. Namun, jika terdapat surplus dari saldo dana Tabarru, maka keuntungan tersebut akan dibagi antara operator dan pemegang polis, sesuai dengan persentase yang telah ditentukan sebelumnya.   
 
-Asuransi adalah salah satu kontrak yang diatur dan diawasi oleh lembaga pemerintahan. Di Indonesia, lembaga yang mengawasi produk asuransi adalah Otoritas Jasa Keuangan (OJK). Sehingga dalam merancang suatu produk asuransi, selain memperhatikan kondisi pasar, perlu juga dilakukan studi mengenai peraturan yang berrlaku.  
+Asuransi adalah salah satu kontrak yang diatur dan diawasi oleh lembaga pemerintahan. Di Indonesia, lembaga yang mengawasi produk asuransi adalah Otoritas Jasa Keuangan (OJK). Sehingga dalam merancang suatu produk asuransi, selain memperhatikan kondisi pasar, perlu juga dilakukan studi mengenai peraturan yang berlaku.  
   
 # *Term Structure of Interest Rate*  
+## Teori Dasar  
 \textit{Term Structure of Interest Rate} merujuk nilai suku bunga yang bergantung dari jangka waktu investasi. Hal ini biasa disajikan dengan kurva imbal hasil (\textit{yield curve}). Di Indonesia sendiri, terdapat suatu lembaga yang menerbitkan data imbal hasil ini, yaitu [\textcolor{blue}{PHEI}](https://www.phei.co.id/). Perlu diingat bahwa imbal hasil yang disajikan pada situs tersebut merupakan imbal hasil dari obligasi berkupon (\textit{coupon paying bond}), sehingga imbal hasil yang ada bukan merupakan imbal hasil efektif. Untuk dapat memperoleh imbal hasil efektif (atau yang dikenal dengan istilah \textit{spot rate}), perlu dilakukan metode \textit{bootstrapping}.  
 Definisikan \textit{spot rate}, $r_t$, sebagai imbal hasil efektif dari uang yang diinvestasikan pada waktu 0 hingga waktu $t$, dan \textit{yield rate}, $y_t$, sebagai imbal hasil dari obligasi dengan kupon tahunan. Dari pendefinisian ini, diperoleh bahwa $r_1 = y_1$ (Mengapa?), dan untuk menghitung $r_k$ dapat diperoleh dari persamaan berikut:
 \begin{equation}
@@ -64,9 +65,11 @@ Definisikan kembali \textit{forward rate}, $f_{n,m}$, sebagai imbal hasil efekti
 \item ${}_tp_{x}$: peluang orang dengan usia-$x$ tetap hidup hingga usia $x+t$;
 \item $q_x$: peluang orang usia $x$ meninggal.
 \end{enumerate}
+
+## Pemodelan
 Umumnya, model kesintasan dicatat dalam sebuah tabel yang disebut dengan tabel mortalita (\textit{life table} atau dalam kasus khusus \textit{service table}). Terdapat beberapa tabel mortalita yang dapat digunakan, salah satunya adalah [\textcolor{blue}{Tabel Mortalita Indonesia IV}](https://www.bing.com/ck/a?!&&p=45dd7ca36f4fb8ecJmltdHM9MTcxMTE1MjAwMCZpZ3VpZD0zN2RlYWEwMC03NzZhLTZhM2ItMTNlZS1hNTcxNzY1MjZiNjgmaW5zaWQ9NTIwMQ&ptn=3&ver=2&hsh=3&fclid=37deaa00-776a-6a3b-13ee-a57176526b68&psq=tabel+mortalitas+iv&u=a1aHR0cHM6Ly9hYWppLm9yLmlkL0ZpbGUvRG93bmxvYWQvMTk3MA&ntb=1).  
 
-Karena natura dari suatu kontrak asuransi yang memiliki jangkauan jangka panjang, sangat mungkin untuk seorang pemegang polis untuk mengubah pikirannya untuk mencari polis dengan karakteristik yang berbeda. Sehingga perlu juga diasumsikan, peluang seseorang untuk membatalkan polis.  
+Karena karakteristik dari suatu kontrak asuransi yang memiliki jangkauan jangka panjang, sangat mungkin untuk seorang pemegang polis untuk mengubah pikirannya untuk mencari polis dengan karakteristik yang berbeda. Sehingga perlu juga diasumsikan, peluang seseorang untuk membatalkan polis.  
 
 Dalam kasus ini, akan dicoba konstruksi suatu \textit{service table} untuk sembarang usia, dengan peluang pembatalan polis sesuai dengan tabel berikut:
 \begin{center}
@@ -120,9 +123,23 @@ return(table_)
 }
 svc_table(20,0,10)
 ```
-
-# Cadangan Premi: Konvensional  
-Lorem Ipsum
+Tentu saja, pada pemodelannya, belum tentu usia seorang pemegang polis berupa bilangan bulat sehingga dapat dilakukan interpolasi. Beberapa metode interpolasi yang umum digunakan adalah:
+\begin{enumerate}
+\item Interpolasi Linear (\textit{Uniform Distribution of Death})
+\item Interpolasi Eksponensial (\textit{Constant Force of Mortality})
+\item Interpolasi Harmonic (\textit{Hyperbolic / Balducci})
+\end{enumerate}
+# *Gross Policy Values*    
+*Gross Policy Values* (GPV) adalah suatu formula untuk menentukan nilai cadangan premi dari sebuah polis. Notasikan $L_t$ sebagai peubah acak yang menyatakan *present value of gross future loss* pada waktu ke-$t$ yang dapat dihitung dengan formula berikut:   
+\begin{equation}
+L_t = b_t + e_t - p_t
+\end{equation}
+dengan 
+\begin{enumerate}
+\item $b_t$: \textit{Present value of future benefits} pada waktu ke-$t$
+\item $e_t$: \textit{Present value of future expense} pada waktu ke-$t$
+\item $p_t$: \textit{Present value of future gross premiums.} pada waktu ke-$t$
+\end{enumerate}
 
 # Cadangan Premi: Syariah  
 Lorem Ipsum  
