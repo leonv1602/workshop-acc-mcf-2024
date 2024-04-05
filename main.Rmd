@@ -175,7 +175,10 @@ policy_value <- function(t){
   if (t > nrow(table_cf)){
     return(0)
   }
-  return((ifelse(t=nrow(table_cf),1,table_cf$survive[(t+1)]) *policy_value(t+1)+ table_cf$expected_benefit[t])/(1+i))
+  return((ifelse(t=nrow(table_cf),
+                 1,
+                 table_cf$survive[(t+1)])*policy_value(t+1)+ 
+            table_cf$expected_benefit[t])/(1+i))
 }
 table_cf$gpv <- unlist(lapply(1:nrow(table_cf), policy_value))
 table_cf
