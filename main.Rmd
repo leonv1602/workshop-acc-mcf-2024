@@ -140,9 +140,44 @@ dengan
 \item $e_t$: \textit{Present value of future expense} pada waktu ke-$t$
 \item $p_t$: \textit{Present value of future gross premiums.} pada waktu ke-$t$
 \end{enumerate}
+Definisikan kembali suatu peubah acak yang menyakatan nilai polis pada waktu ke-$t$ sebagai ${}_tV$ yang dapat dihitung dengan formula berikut:
+\begin{equation}
+{}_tV + EPV_{P_t} = EPV_{B_t} + EPV_{e_t}
+\end{equation}
+yang dapat dihitung secara rekursif dengan persamaan berikut:
+\begin{equation}
+{}_{t}V = \frac{\left(p_{x+t}{}_{t+1}V + q_{x+t} \left(b_{t+1} + e^{(b)}_{t+1}\right) \right)}{(1+i_t)} - P_t + e^{(p)}_t
+\end{equation}
+dengan:
+\begin{enumerate}
+\item $P_t$: premi pada waktu ke-$t$
+\item $e^{(p)}_t$/$e^{(b)}_t$: \textit{expense} yang berkaitan dengan premi/manfaat pada waktu ke-$t$
+\item $b_{t+1}$: manfaat yang dibayarkan pada waktu ke-$t$
+\end{enumerate}
+Perhatikan bahwa untuk $t > n$ dengan $n$ adalah masa pertanggungan polis, diperoleh ${}_tV = 0$. Sehingga dalam menghitung GPV akan lebih mudah jika menggunakan formula rekursif.
 
-# Cadangan Premi: Syariah  
-Lorem Ipsum  
+Misalkan dengan contoh pada algoritma sebelumnya, terdapat pembayaran premi sebanyak 100 pada waktu ke 0 dan manfaat yang dibayarkan hanya jika pemegang polis meninggal dengan besaran 500 pada tiap waktu. Untuk penyederhanaan, misalkan pula suku bunga yang digunakan sebesar 5\%
 
-# CAT *Bond*  
-Lorem Ipsum  
+```{r complete table}
+n <- 10
+i = 0.05
+table_cf <- svc_table(20,0,10)
+table_cf <- table_cf %>% 
+  mutate(disc_factor = (1+i)^-table_cf$policy_year,
+         premium = c(1000, rep(0,nrow(table_cf)-1)),
+         benefit = rep(500, nrow(table_cf))) %>% 
+  mutate(expected_premium = premium*disc_factor*survive,
+         expected_benefit = benefit*disc_factor*mort_)
+table_cf
+```
+```{r}
+policy_value <- function(t){
+  if (t > nrow(table_cf)){
+    return(0)
+  }
+  return((ifelse(t=nrow(table_cf),1,table_cf$survive[(t+1)]) *policy_value(t+1)+ table_cf$expected_benefit[t])/(1+i))
+}
+table_cf$gpv <- unlist(lapply(1:nrow(table_cf), policy_value))
+table_cf
+```
+ 
